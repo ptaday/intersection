@@ -33,7 +33,7 @@ const Index = () => {
       </nav>
 
       {/* Hero */}
-      <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 text-center">
+      <main className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
         <div className="max-w-2xl space-y-6">
           <p className="text-sm font-medium uppercase tracking-widest text-primary">
             NYC Hangout Matching
