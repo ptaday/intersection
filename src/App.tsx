@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Intake from "./pages/Intake";
 import LetsHang from "./pages/LetsHang";
 import MatchResults from "./pages/MatchResults";
+import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/intake" element={<ProtectedRoute><Intake /></ProtectedRoute>} />
             <Route path="/lets-hang" element={<ProtectedRoute><LetsHang /></ProtectedRoute>} />
             <Route path="/matches/:sessionId" element={<ProtectedRoute><MatchResults /></ProtectedRoute>} />
+            <Route path="/chat/:matchId" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
