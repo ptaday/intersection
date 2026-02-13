@@ -14,7 +14,254 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      friendships: {
+        Row: {
+          created_at: string | null
+          friend_id: string
+          id: string
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          friend_id: string
+          id?: string
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          friend_id?: string
+          id?: string
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      hang_sessions: {
+        Row: {
+          activity_types: string[] | null
+          created_at: string | null
+          does_not_want: string | null
+          emotional_intent_metadata: Json | null
+          energy_level: number | null
+          expires_at: string
+          id: string
+          is_active: boolean | null
+          mood: string
+          time_windows: Json
+          user_id: string
+          wants_to_do: string | null
+        }
+        Insert: {
+          activity_types?: string[] | null
+          created_at?: string | null
+          does_not_want?: string | null
+          emotional_intent_metadata?: Json | null
+          energy_level?: number | null
+          expires_at: string
+          id?: string
+          is_active?: boolean | null
+          mood: string
+          time_windows?: Json
+          user_id: string
+          wants_to_do?: string | null
+        }
+        Update: {
+          activity_types?: string[] | null
+          created_at?: string | null
+          does_not_want?: string | null
+          emotional_intent_metadata?: Json | null
+          energy_level?: number | null
+          expires_at?: string
+          id?: string
+          is_active?: boolean | null
+          mood?: string
+          time_windows?: Json
+          user_id?: string
+          wants_to_do?: string | null
+        }
+        Relationships: []
+      }
+      matches: {
+        Row: {
+          created_at: string | null
+          id: string
+          match_score: number
+          matched_user_id: string
+          score_breakdown: Json | null
+          session_id: string
+          status: string | null
+          suggested_venues: Json | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          match_score: number
+          matched_user_id: string
+          score_breakdown?: Json | null
+          session_id: string
+          status?: string | null
+          suggested_venues?: Json | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          match_score?: number
+          matched_user_id?: string
+          score_breakdown?: Json | null
+          session_id?: string
+          status?: string | null
+          suggested_venues?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matches_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "hang_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          display_name: string
+          home_neighborhood: string | null
+          id: string
+          intake_completed: boolean | null
+          phone: string | null
+          preferred_apps: string[] | null
+          preferred_hangout_types: string[] | null
+          preferred_neighborhoods: string[] | null
+          social_preference: string | null
+          train_routes: string[] | null
+          trust_score: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name: string
+          home_neighborhood?: string | null
+          id?: string
+          intake_completed?: boolean | null
+          phone?: string | null
+          preferred_apps?: string[] | null
+          preferred_hangout_types?: string[] | null
+          preferred_neighborhoods?: string[] | null
+          social_preference?: string | null
+          train_routes?: string[] | null
+          trust_score?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name?: string
+          home_neighborhood?: string | null
+          id?: string
+          intake_completed?: boolean | null
+          phone?: string | null
+          preferred_apps?: string[] | null
+          preferred_hangout_types?: string[] | null
+          preferred_neighborhoods?: string[] | null
+          social_preference?: string | null
+          train_routes?: string[] | null
+          trust_score?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      trust_signals: {
+        Row: {
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          points: number
+          signal_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          points: number
+          signal_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          points?: number
+          signal_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_interests: {
+        Row: {
+          created_at: string | null
+          id: string
+          interest: string
+          interest_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          interest: string
+          interest_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          interest?: string
+          interest_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_locations: {
+        Row: {
+          borough: string
+          created_at: string | null
+          id: string
+          label: string
+          location_type: string
+          neighborhood: string
+          user_id: string
+        }
+        Insert: {
+          borough: string
+          created_at?: string | null
+          id?: string
+          label: string
+          location_type: string
+          neighborhood: string
+          user_id: string
+        }
+        Update: {
+          borough?: string
+          created_at?: string | null
+          id?: string
+          label?: string
+          location_type?: string
+          neighborhood?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
