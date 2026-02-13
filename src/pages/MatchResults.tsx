@@ -66,19 +66,8 @@ const MatchResults = () => {
     fetchMatches();
   }, [sessionId, user]);
 
-  const handleReachOut = async (match: MatchData) => {
-    await supabase
-      .from("matches")
-      .update({ status: "accepted" })
-      .eq("id", match.id);
-
-    const apps = match.matched_profile.preferred_apps;
-    const appName = apps.length > 0 ? apps[0] : "your preferred app";
-
-    toast({
-      title: `Reach out to ${match.matched_profile.display_name}! 🎉`,
-      description: `Send them a message on ${appName} and make plans!`,
-    });
+  const handleReachOut = (match: MatchData) => {
+    navigate(`/chat/${match.id}`);
   };
 
   if (loading) {
