@@ -212,7 +212,10 @@ serve(async (req) => {
         party: "bars nightlife social spots",
       };
 
-      const searchQuery = `best ${moodDescriptions[session.mood] || "hangout spots"} in ${userProfile.home_neighborhood || "NYC"} ${(session.activity_types || []).slice(0, 2).join(" ")}`;
+      const neighborhood = userProfile.home_neighborhood || "Manhattan";
+      const moodDesc = moodDescriptions[session.mood] || "hangout spots";
+      const activities = (session.activity_types || []).slice(0, 2).join(", ");
+      const searchQuery = `${moodDesc} ${activities} in ${neighborhood} New York City NYC restaurants bars cafes`;
 
       try {
         const tavilyResponse = await fetch("https://api.tavily.com/search", {
@@ -223,6 +226,7 @@ serve(async (req) => {
             query: searchQuery,
             max_results: 5,
             search_depth: "basic",
+            include_domains: ["yelp.com", "timeout.com", "eater.com", "thrillist.com", "infatuation.com", "google.com/maps"],
           }),
         });
 
