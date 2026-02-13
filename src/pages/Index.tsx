@@ -47,7 +47,7 @@ const Index = () => {
             Intersection matches you with the right person to hang out with — based on how you feel right now.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-            <Button size="lg" className="text-base px-8" onClick={() => navigate("/auth")}>
+            <Button size="lg" className="text-base px-8" onClick={() => navigate(user ? "/home" : "/auth")}>
               Start Connecting
             </Button>
             <Button size="lg" variant="outline" className="text-base px-8" onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}>
