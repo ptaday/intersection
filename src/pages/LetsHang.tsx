@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/hooks/use-toast";
 import { MOOD_OPTIONS, ACTIVITY_TYPES } from "@/lib/nyc-data";
+import { useSpeechToText } from "@/hooks/useSpeechToText";
+import { Mic, MicOff } from "lucide-react";
 
 type TimeWindow = { date: string; start: string; end: string };
 
@@ -38,6 +40,11 @@ const LetsHang = () => {
   const [intentInput, setIntentInput] = useState("");
   const [intentLoading, setIntentLoading] = useState(false);
   const [intentDone, setIntentDone] = useState(false);
+
+  // Voice-to-text hooks
+  const wantsVoice = useSpeechToText(useCallback((t: string) => setWantsToDo(prev => prev ? prev + " " + t : t), []));
+  const doesNotWantVoice = useSpeechToText(useCallback((t: string) => setDoesNotWant(prev => prev ? prev + " " + t : t), []));
+  const intentVoice = useSpeechToText(useCallback((t: string) => setIntentInput(prev => prev ? prev + " " + t : t), []));
 
   const steps = [
     { title: "😌 How are you feeling?", desc: "Pick your vibe for this hangout" },
@@ -296,7 +303,17 @@ const LetsHang = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Things you want to do</Label>
+                  <div className="flex items-center justify-between">
+                    <Label>Things you want to do</Label>
+                    <button
+                      type="button"
+                      onClick={wantsVoice.toggleListening}
+                      className={`p-1.5 rounded-full transition-colors ${wantsVoice.isListening ? "bg-destructive text-destructive-foreground animate-pulse-warm" : "bg-muted text-muted-foreground hover:bg-accent"}`}
+                      title={wantsVoice.isListening ? "Stop recording" : "Start voice input"}
+                    >
+                      {wantsVoice.isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                    </button>
+                  </div>
                   <Textarea
                     placeholder="I'd love to grab coffee and chat about life..."
                     value={wantsToDo}
@@ -306,7 +323,17 @@ const LetsHang = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Things you do NOT want to do</Label>
+                  <div className="flex items-center justify-between">
+                    <Label>Things you do NOT want to do</Label>
+                    <button
+                      type="button"
+                      onClick={doesNotWantVoice.toggleListening}
+                      className={`p-1.5 rounded-full transition-colors ${doesNotWantVoice.isListening ? "bg-destructive text-destructive-foreground animate-pulse-warm" : "bg-muted text-muted-foreground hover:bg-accent"}`}
+                      title={doesNotWantVoice.isListening ? "Stop recording" : "Start voice input"}
+                    >
+                      {doesNotWantVoice.isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                    </button>
+                  </div>
                   <Textarea
                     placeholder="Nothing too loud or crowded today..."
                     value={doesNotWant}
@@ -356,9 +383,19 @@ const LetsHang = () => {
                       }}
                       className="min-h-[50px]"
                     />
-                    <Button onClick={sendIntentMessage} disabled={intentLoading || !intentInput.trim()}>
-                      Send
-                    </Button>
+                    <div className="flex flex-col gap-1">
+                      <button
+                        type="button"
+                        onClick={intentVoice.toggleListening}
+                        className={`p-2 rounded-full transition-colors ${intentVoice.isListening ? "bg-destructive text-destructive-foreground animate-pulse-warm" : "bg-muted text-muted-foreground hover:bg-accent"}`}
+                        title={intentVoice.isListening ? "Stop recording" : "Start voice input"}
+                      >
+                        {intentVoice.isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                      </button>
+                      <Button onClick={sendIntentMessage} disabled={intentLoading || !intentInput.trim()} size="icon">
+                        Send
+                      </Button>
+                    </div>
                   </div>
                 )}
 
