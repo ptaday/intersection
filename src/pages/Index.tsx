@@ -50,14 +50,14 @@ const Index = () => {
             <Button size="lg" className="text-base px-8" onClick={() => navigate("/auth")}>
               Start Connecting
             </Button>
-            <Button size="lg" variant="outline" className="text-base px-8">
+            <Button size="lg" variant="outline" className="text-base px-8" onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}>
               How It Works
             </Button>
           </div>
         </div>
 
         {/* Value props */}
-        <div className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl w-full">
+        <div id="how-it-works" className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl w-full scroll-mt-8">
           {[
             { emoji: "📍", title: "Proximity", desc: "Matches based on real NYC neighborhoods & transit" },
             { emoji: "🧠", title: "Intent", desc: "Your mood and energy shape every suggestion" },
