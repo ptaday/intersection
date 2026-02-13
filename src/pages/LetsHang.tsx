@@ -5,12 +5,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/hooks/use-toast";
 import { MOOD_OPTIONS, ACTIVITY_TYPES } from "@/lib/nyc-data";
 import { useSpeechToText } from "@/hooks/useSpeechToText";
-import { Mic, MicOff } from "lucide-react";
+import { Mic, MicOff, Plus } from "lucide-react";
 
 type TimeWindow = { date: string; start: string; end: string };
 
@@ -32,6 +33,8 @@ const LetsHang = () => {
 
   // Step 2: Activities
   const [activities, setActivities] = useState<string[]>([]);
+  const [customActivity, setCustomActivity] = useState("");
+  const [customMood, setCustomMood] = useState("");
   const [wantsToDo, setWantsToDo] = useState("");
   const [doesNotWant, setDoesNotWant] = useState("");
 
@@ -224,6 +227,58 @@ const LetsHang = () => {
                       </div>
                     </button>
                   ))}
+                  {/* Custom mood that was added */}
+                  {customMood && (
+                    <button
+                      type="button"
+                      onClick={() => setMood(customMood)}
+                      className={`flex items-center gap-4 p-4 rounded-xl text-left transition-all ${
+                        mood === customMood
+                          ? "bg-primary text-primary-foreground shadow-md"
+                          : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                      }`}
+                    >
+                      <span className="text-2xl">✨</span>
+                      <div>
+                        <p className="font-medium">{customMood}</p>
+                        <p className={`text-xs ${mood === customMood ? "text-primary-foreground/80" : "text-muted-foreground"}`}>Your custom vibe</p>
+                      </div>
+                    </button>
+                  )}
+                </div>
+
+                {/* Add custom mood */}
+                <div className="flex gap-2 items-center">
+                  <Input
+                    id="custom-mood-input"
+                    placeholder="Something else on your mind..."
+                    className="text-sm h-9"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        const val = e.currentTarget.value.trim();
+                        if (val) {
+                          setCustomMood(val);
+                          setMood(val);
+                          e.currentTarget.value = "";
+                        }
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const input = document.getElementById('custom-mood-input') as HTMLInputElement;
+                      if (input?.value.trim()) {
+                        setCustomMood(input.value.trim());
+                        setMood(input.value.trim());
+                        input.value = "";
+                      }
+                    }}
+                    className="p-2 rounded-lg bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
                 </div>
 
                 <div className="space-y-3">
@@ -285,7 +340,7 @@ const LetsHang = () => {
                 <div className="space-y-2">
                   <Label>Activities you're open to</Label>
                   <div className="flex flex-wrap gap-2">
-                    {ACTIVITY_TYPES.map((a) => (
+                    {[...ACTIVITY_TYPES, ...activities.filter(a => !ACTIVITY_TYPES.includes(a as any))].map((a) => (
                       <button
                         key={a}
                         type="button"
@@ -299,6 +354,37 @@ const LetsHang = () => {
                         {a}
                       </button>
                     ))}
+                  </div>
+                  {/* Add custom activity */}
+                  <div className="flex gap-2 items-center pt-1">
+                    <Input
+                      id="custom-activity-input"
+                      placeholder="Add your own..."
+                      className="text-sm h-9"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          const val = e.currentTarget.value.trim();
+                          if (val && !activities.includes(val)) {
+                            setActivities([...activities, val]);
+                            e.currentTarget.value = "";
+                          }
+                        }
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const input = document.getElementById('custom-activity-input') as HTMLInputElement;
+                        if (input?.value.trim() && !activities.includes(input.value.trim())) {
+                          setActivities([...activities, input.value.trim()]);
+                          input.value = "";
+                        }
+                      }}
+                      className="p-2 rounded-lg bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </button>
                   </div>
                 </div>
 

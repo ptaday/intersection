@@ -56,8 +56,11 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Value props */}
-        <div id="how-it-works" className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl w-full scroll-mt-8">
+      </main>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="relative z-10 scroll-mt-8 px-6 py-20">
+        <div className="mx-auto grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-3">
           {[
             { emoji: "📍", title: "Proximity", desc: "Matches based on real NYC neighborhoods & transit" },
             { emoji: "🧠", title: "Intent", desc: "Your mood and energy shape every suggestion" },
@@ -70,7 +73,7 @@ const Index = () => {
             </div>
           ))}
         </div>
-      </main>
+      </section>
 
       {/* Footer */}
       <footer className="relative z-10 py-8 text-center text-sm text-muted-foreground">
