@@ -45,6 +45,7 @@ export const MOOD_OPTIONS = [
   { value: "explore_nyc", label: "Explore NYC", emoji: "🗽", desc: "Activity or adventure" },
   { value: "coworking", label: "Co-Working", emoji: "💻", desc: "Productive meet" },
   { value: "party", label: "Party / Social", emoji: "🎉", desc: "High energy" },
+  { value: "workout", label: "Workout", emoji: "🏋️", desc: "Exercise together" },
 ] as const;
 
 export const ACTIVITY_TYPES = [
